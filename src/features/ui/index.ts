@@ -1,0 +1,1 @@
+export { default as Navegation } from '@/features/ui/navbar/NavBar';

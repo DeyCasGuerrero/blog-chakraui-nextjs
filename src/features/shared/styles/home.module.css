@@ -1,0 +1,19 @@
+.backGround {
+    position: relative;
+    overflow: hidden;
+}
+
+.backGround::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('https://i.pinimg.com/originals/02/90/4f/02904f5a365f5093c4d466f179646004.gif') no-repeat center center;
+    background-size: cover;
+    filter: brightness(50%);
+    image-rendering: pixelated;
+    z-index: -1;
+    box-shadow: inset 0 0 100px 200px rgba(0, 0, 0, 0.5); 
+}
