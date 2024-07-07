@@ -1,8 +1,10 @@
 "use client";
 import { Link } from "@chakra-ui/next-js";
-import { Box, Button, Divider, Flex, Heading, HStack, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Container, Divider, Flex, Grid, GridItem, Heading, HStack, Text, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import styles from '../styles/home.module.css';
+import { motion } from 'framer-motion';
+import { AiFillGithub } from "react-icons/ai";
 export default function RootStructure() {
 
     const words = "Wee help you create your blog and stay connected with the latest information"
@@ -22,24 +24,87 @@ export default function RootStructure() {
         return () => clearInterval(interval);
     }, []);
 
-    const handleClick = ()=>{
+    const handleClick = () => {
         console.log('handleClick')
     }
 
     // console.log(displayedText)
     return (
-        <Flex as="main" minHeight="100vh">
+        <Flex overflow="hidden" as="main" minHeight="100vh"
+            position="relative" justifyContent="center" alignItems="center"
+            boxShadow={"inset 0 0 100px 200px rgba(0, 0, 0, 0.9)"}
+        >
+            
+            <Grid position="absolute"
+                as={motion.div}
+                initial={{
+                    opacity: 0, scale: 0.5
+                }}
+                animate={{
+                    opacity: 0.3, scale: 1,
+                    transition: {
+                        duration: 1,
+                        ease: "easeOut",
+                        delay: 0.5
+                    }
+                }}
+
+                zIndex={-1}
+                left={0}
+                right={0}
+                top={0}
+                bottom={0}
+                templateRows='repeat(4, 1fr)' //(filas, espacios)
+                templateColumns='repeat(4, 1fr)'//(columnas, espacios)   
+                p={[
+                    2, 20
+                ]}
+
+                opacity="0.5"
+            >
+                <GridItem border={"1px dashed gray"} rowSpan={2}>
+
+                </GridItem>
+                <GridItem border={"1px dashed gray"} colSpan={2}>
+
+                </GridItem>
+                <GridItem border={"1px dashed gray"} >
+
+                </GridItem>
+                <GridItem border={"1px dashed gray"} colSpan={2}>
+
+                </GridItem>
+                <GridItem border={"1px dashed gray"}>
+
+                </GridItem>
+                <GridItem border={"1px dashed gray"} colSpan={2}>
+
+                </GridItem>
+                <GridItem border={"1px dashed gray"} >
+
+                </GridItem>
+                <GridItem border={"1px dashed gray"} rowSpan={2}>
+
+                </GridItem>
+                <GridItem border={"1px dashed gray"}>
+
+                </GridItem>
+                <GridItem border={"1px dashed gray"} colSpan={2} >
+
+                </GridItem>
+
+            </Grid>
             <VStack p={2}
                 w={[
-                    "100%", "50%"
+                    "100%", "80%"
                 ]} textAlign={"center"}
                 m="auto"
-                
+
                 spacing="30px"
             >
                 <Heading
                     fontSize={[
-                        "3xl", "5xl"
+                        "3xl", "7xl"
                     ]}
                     bgClip="text"
                     textTransform="uppercase"
@@ -62,7 +127,7 @@ export default function RootStructure() {
                         </Text>
                     ))}
                 </Box>
-                
+
                 <HStack>
                     <Link
                         href="/blog"
@@ -73,15 +138,20 @@ export default function RootStructure() {
                     >
                         Get Started
                     </Link>
-                    <Button
-                    bg="slateblue"
-
-                    _hover={{
-                        bg: "blue.500"
-                    }}
+                    <Link
+                        bg="slateblue"
+                        href="https://github.com/DeyCasGuerrero"
+                        display="flex"
+                        alignItems="center"
+                        target="__blank"
+                        gap="1"
+                        _hover={{
+                            bg: "blue.500"
+                        }}
                     >
-                        view
-                    </Button>
+                        View
+                        <AiFillGithub size={22} />
+                    </Link>
                 </HStack>
             </VStack>
         </Flex>

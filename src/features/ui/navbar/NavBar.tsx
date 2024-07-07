@@ -6,27 +6,27 @@ export default function NavBar() {
             bg="black"
             position="sticky"
             overflow="hidden"
+            borderBottom="1px solid gray"
         >
-            <Flex alignItems="center" ml="30px">
+            
+            <Flex alignItems="center" justifyContent="space-between" >
 
-                <Box>
-                    <Heading 
-                    bgClip="text"
-                    bgGradient="linear(to-r, red, blue)"
+                <Box ml="8">
+                    <Heading
+                        bgClip="text"
+                        bgGradient="linear(to-r, red, blue)"
                     >
                         BlogOwn
                     </Heading>
                 </Box>
                 <Box
                     w={[
-                        "100%", "50%"
+                        "100%", "40%"
                     ]}
-                    ml="auto"
+                    
                     position="relative"
                     p="2"
                 >
-
-
                     <Flex
                         color="whitesmoke"
                         justify="space-around"
@@ -34,7 +34,11 @@ export default function NavBar() {
                     >
                         <Box
                             as="a"
-                            _hover={{ color: "gray" }}
+                            _hover={{
+                                color: "white",
+                                textDecoration: "none",
+                                transition: "color 0.5s ease-out"
+                            }}
                             cursor="pointer"
                             href="/"
                         >
@@ -42,16 +46,48 @@ export default function NavBar() {
                         </Box>
                         <Box
                             as="a"
-                            _hover={{ color: "gray" }}
+                            _hover={{
+                                color: "white",
+                                textDecoration: "none",
+                                transition: "color 0.5s ease-out"
+                            }}
                             cursor="pointer"
                             href="/about"
                         >
                             About
                         </Box>
+                        <Box
+                            as="a"
+                            _hover={{
+                                color: "white",
+                                textDecoration: "none",
+                                transition: "color 0.5s ease-out"
+                            }}
+                            cursor="pointer"
+                            href="/about"
+                        >
+                            About
+                        </Box>
+                        <Box
+                            as="a"
+                            _hover={{
+                                color: "white",
+                                textDecoration: "none",
+                                transition: "color 0.5s ease-out"
+                            }}
+                            cursor="pointer"
+                            href="/about"
+                        >
+                            News
+                        </Box>
 
                         <Box
                             as="a"
-                            _hover={{ color: "gray" }}
+                            _hover={{
+                                color: "white",
+                                textDecoration: "none",
+                                transition: "color 0.5s ease-out"
+                            }}
                             cursor="pointer"
                         >
                             Blog
@@ -85,6 +121,6 @@ export default function NavBar() {
             </Flex>
         </Box>
 
-        
+
     )
 }

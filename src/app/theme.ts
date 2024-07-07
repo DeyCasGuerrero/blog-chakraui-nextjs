@@ -63,7 +63,7 @@ const theme = extendTheme({
             a: {
                 color: 'gray.600',
                 _hover: {
-                    textDecoration: 'underline',
+                    // textDecoration: 'underline',
                 },
             },
         },
