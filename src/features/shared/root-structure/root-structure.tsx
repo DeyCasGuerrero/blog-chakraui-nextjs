@@ -43,8 +43,8 @@ export default function RootStructure() {
                 animate={{
                     opacity: 0.3, scale: 1,
                     transition: {
-                        duration: 1,
-                        ease: "easeOut",
+                        duration: 0.5,
+                        ease: "easeInOut",
                         delay: 0.5
                     }
                 }}

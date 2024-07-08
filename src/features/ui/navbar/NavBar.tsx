@@ -56,6 +56,7 @@ export default function NavBar() {
                         >
                             About
                         </Box>
+                        
                         <Box
                             as="a"
                             _hover={{
@@ -64,31 +65,25 @@ export default function NavBar() {
                                 transition: "color 0.5s ease-out"
                             }}
                             cursor="pointer"
-                            href="/about"
-                        >
-                            About
-                        </Box>
-                        <Box
-                            as="a"
-                            _hover={{
-                                color: "white",
-                                textDecoration: "none",
-                                transition: "color 0.5s ease-out"
-                            }}
-                            cursor="pointer"
-                            href="/about"
+                            href="/news"
                         >
                             News
                         </Box>
 
                         <Box
                             as="a"
+                            bg="slateblue"
+                            p={2}
+                            rounded="md"
+                            color="white"
+                            fontWeight="semibold"
                             _hover={{
-                                color: "white",
+                                
                                 textDecoration: "none",
                                 transition: "color 0.5s ease-out"
                             }}
                             cursor="pointer"
+                            href="/blog"
                         >
                             Blog
                         </Box>

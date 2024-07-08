@@ -4,7 +4,7 @@ import {
     Divider, Flex, Heading, HStack, Link, Stack, Text, VStack
 } from "@chakra-ui/react";
 
-export default function NewStructure() {
+export default function RootNewStructure() {
     return (
 
         <Box as="section"

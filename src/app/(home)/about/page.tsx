@@ -1,5 +1,8 @@
-export default function AboutPage(){
-    return(
-        <h1>wa</h1>
-    )
+import { AboutStructure } from "@/features/shared/index";
+export default function AboutPage() {
+    return (
+        <>
+            <AboutStructure />
+        </>
+    );
 }

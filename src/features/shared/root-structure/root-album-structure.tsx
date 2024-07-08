@@ -1,7 +1,7 @@
 import { Box, Flex, Grid, GridItem, Heading, Image, Container, VStack } from "@chakra-ui/react";
 import styles from "../styles/home.module.css";
 
-export default function AlbumStructure() {
+export default function RootAlbumStructure() {
     
     return (
         <Box as="section"
@@ -54,7 +54,7 @@ export default function AlbumStructure() {
                                 alt="roxy"
                                 objectFit="cover"
                                 zIndex={-1}
-                                filter={"grayscale(60%)"}
+                                filter={"brightness(60%)"}
                             />
                         </GridItem>
 
@@ -71,7 +71,7 @@ export default function AlbumStructure() {
                                 alt="xd"
                                 objectFit="cover"
                                 borderRadius="lg"
-                                filter={"grayscale(20%)"}
+                                
                             />
                         </GridItem>
 
@@ -85,7 +85,7 @@ export default function AlbumStructure() {
                             ]}
                             
                             boxShadow={"inset 0 -80px 130px -120px rgba(0, 0, 0, 0.9)"}
-                    
+                            filter={"brightness(80%)"}
                         >
                             <Image
                                 src="https://nextjs.org/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpreview-twitch.4ed9ddb3.png&w=640&q=75"
@@ -106,6 +106,7 @@ export default function AlbumStructure() {
                                 2, // 2 columnas en pantallas medianas
                                 2  // 1 columna en pantallas grandes
                             ]}
+                            filter={"brightness(90%)"}
                             
                         >
                             <Image
@@ -126,6 +127,7 @@ export default function AlbumStructure() {
                                 1  // 1 columna en pantallas grandes
                             ]}
                             boxShadow={"inset 0 -80px 130px -120px rgba(0, 0, 0, 0.9)"}
+                            filter={"brightness(90%)"}
                         >
                             <Image
                                 src="https://nextjs.org/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fpreview-nike.ae99d521.png&w=640&q=75"
