@@ -24,7 +24,7 @@ export default function CardComponent() {
                     <Text color="white">Nextjs</Text>
                     <Text color="white">
                         A popular JavaScript framework developed by Vercel.
-                        It's built on top of React and offers server-side rendering,
+                        Its built on top of React and offers server-side rendering,
                         static site generation, and powerful performance optimizations.
                         Next.js allows you to create dynamic and interactive web applications.
                     </Text>

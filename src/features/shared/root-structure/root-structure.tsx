@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { Link } from "@chakra-ui/next-js";
 import { Box, Button, Container, Divider, Flex, Grid, GridItem, Heading, HStack, Text, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -32,6 +32,7 @@ export default function RootStructure() {
     return (
         <Flex overflow="hidden" as="main" minHeight="100vh"
             position="relative" justifyContent="center" alignItems="center"
+            
             boxShadow={"inset 0 0 100px 200px rgba(0, 0, 0, 0.9)"}
         >
             
@@ -41,7 +42,7 @@ export default function RootStructure() {
                     opacity: 0, scale: 0.5
                 }}
                 animate={{
-                    opacity: 0.3, scale: 1,
+                    opacity: 0.5, scale: 1,
                     transition: {
                         duration: 0.5,
                         ease: "easeInOut",

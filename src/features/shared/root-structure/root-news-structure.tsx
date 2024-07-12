@@ -1,9 +1,9 @@
 
 import {
-    Box, Card, CardBody, CardHeader, Center, Container,
-    Divider, Flex, Heading, HStack, Link, Stack, Text, VStack
+    Box,
+    Divider, Heading, Link, Stack, VStack
 } from "@chakra-ui/react";
-
+import { CardsNewIndex } from "@/features/ui/index";
 export default function RootNewStructure() {
     return (
 
@@ -17,84 +17,18 @@ export default function RootNewStructure() {
             overflow="hidden"
         >
             <VStack spacing="10">
-                <Heading>What's news</Heading>
+                <Heading>Whats news</Heading>
                 <Divider></Divider>
-                <Stack direction={[
-                    "column", "row"
-                ]}>
-
-                    <Card
-                        w={[
-                            "100%", "96"
-                        ]}
-                        color="whitesmoke"
-                        bg="black"
-                        borderTop="1px solid yellow"
-                    >
-                        <CardHeader>
-                            <Heading>Section 1</Heading>
-                        </CardHeader>
-                        <CardBody >
-                            We help you create your blog and
-                            stay connected with the latest informationundefined
-                            We help you create your blog and stay connected with the
-                            latest informationundefined
-                        </CardBody>
-                    </Card>
-
-                    <Card w={[
-                        "100%", "96"
+                <Stack
+                    direction={[
+                        "column","column","column","column", "row"
                     ]}
-                        color="whitesmoke"
-                        bg="black"
-                        borderTop="1px solid yellow"
-                    >
-                        <CardHeader>
-                            <Heading>Section 1</Heading>
-                        </CardHeader>
-                        <CardBody>
-                            We help you create your blog and
-                            stay connected with the latest informationundefined
-                            We help you create your blog and stay connected with the
-                            latest informationundefined
-                        </CardBody>
-                    </Card>
-
-                    <Card w={[
-                        "100%", "96"
-                    ]}
-                        color="whitesmoke"
-                        bg="black"
-                        borderTop="1px solid yellow"
-                        >
-                        <CardHeader>
-                            <Heading>Section 1</Heading>
-                        </CardHeader>
-                        <CardBody>
-                            We help you create your blog and
-                            stay connected with the latest informationundefined
-                            We help you create your blog and stay connected with the
-                            latest informationundefined
-                        </CardBody>
-                    </Card>
-
-                    <Card w={[
-                        "100%", "96"
-                    ]}
-                        color="whitesmoke"
-                        bg="black"
-                        borderTop="1px solid yellow"
-                        >
-                        <CardHeader>
-                            <Heading>Section 1</Heading>
-                        </CardHeader>
-                        <CardBody>
-                            We help you create your blog and
-                            stay connected with the latest informationundefined
-                            We help you create your blog and stay connected with the
-                            latest informationundefined
-                        </CardBody>
-                    </Card>
+                    spacing={8}
+                >
+                    <CardsNewIndex />
+                    <CardsNewIndex />
+                    <CardsNewIndex />
+                    <CardsNewIndex />
                 </Stack>
                 <Link href="/news"
                     bg="slateblue"
