@@ -1,9 +1,14 @@
 'use client';
-import { Box, Flex, Button, HStack, Heading, Text, Avatar, Menu, MenuButton, MenuList, MenuDivider, MenuItem, MenuGroup } from "@chakra-ui/react";
+import { Box, Flex, Button, HStack, Heading, Text, Avatar, Menu, MenuButton, MenuList, MenuDivider, MenuItem, MenuGroup, Link } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 export default function NavBar() {
+    const { data: session, status } = useSession();
+
+    console.log({ session, status });
+
     const router = useRouter();
-    const handleRouter=()=>{
+    const handleRouter = () => {
         router.push('/blog')
     }
 
@@ -71,29 +76,43 @@ export default function NavBar() {
                                 Blog
                             </Box>
                         </Flex>
-                        <HStack spacing="30px">
-                            <Text fontSize="medium" fontWeight="semibold" color="green.500">
-                                depordey
-                            </Text>
-                            <Menu>
-                                <MenuButton as={Box} cursor='pointer'>
-                                    <Button colorScheme="pink" height="auto" p={0} borderRadius="full" >
-                                        <Avatar name="Dey" src="https://bit.ly/dan-abramov" />
-                                    </Button>
-                                </MenuButton>
-                                <MenuList color='black' p={2}>
-                                    <MenuGroup title='Profile'>
-                                        <MenuItem onClick={handleRouter}>My Account</MenuItem>
-                                        <Button colorScheme="red">LogOut</Button>
-                                    </MenuGroup>
-                                    <MenuDivider />
-                                    <MenuGroup title='Help'>
-                                        <MenuItem>Docs</MenuItem>
-                                        <MenuItem>FAQ</MenuItem>
-                                    </MenuGroup>
-                                </MenuList>
-                            </Menu>
-                        </HStack>
+                        {session?.user ? (
+                            <HStack spacing="30px">
+                                <Text fontSize="medium" fontWeight="semibold" color="green.500">
+                                    {session.user.name}
+                                </Text>
+                                <Menu>
+                                    <MenuButton as={Box} cursor='pointer'>
+                                        <Button colorScheme="pink" height="auto" p={0} borderRadius="full" >
+                                            <Avatar name="Dey" src="https://bit.ly/dan-abramov" />
+                                        </Button>
+                                    </MenuButton>
+                                    <MenuList color='black' p={2}>
+                                        <MenuGroup title='Profile'>
+                                            <MenuItem onClick={handleRouter}>My Account</MenuItem>
+                                            <Button colorScheme="red" onClick={()=>signOut()}>LogOut</Button>
+                                        </MenuGroup>
+                                        <MenuDivider />
+                                        <MenuGroup title='Help'>
+                                            <MenuItem>Docs</MenuItem>
+                                            <MenuItem>FAQ</MenuItem>
+                                        </MenuGroup>
+                                    </MenuList>
+                                </Menu>
+                            </HStack>
+
+                        ) : (
+                            <Link
+                                href="login"
+                
+                                _hover={{
+                                    border: "1px solid",
+                                    transition: "border 0.5s ease-out",
+                                }}
+                            >
+                                Sign In
+                            </Link>
+                        )}
                     </Flex>
                 </Flex>
             </Box>

@@ -1,8 +1,12 @@
+'use client';
 import { Avatar, Box, Button, Flex, Heading, HStack, Text, VStack } from "@chakra-ui/react";
 import { FaLocationDot } from "react-icons/fa6";
-
+import { useSession } from "next-auth/react";
 
 export default function PefileStructure() {
+
+    const { data:session, status }=useSession();
+
     return (
         <Box p={10}>
             <VStack spacing={10}>
@@ -13,10 +17,13 @@ export default function PefileStructure() {
                     </Avatar>
                     <VStack spacing={5} fontWeight='semibold'>
                         <Text fontSize={34}>
-                            Deyvis
+                            {session?.user.name}
                         </Text>
                         <Text fontSize={20}>
-                            Deypordey@gmail.com
+                            {session?.user.role}
+                        </Text>
+                        <Text fontSize={20}>
+                            {session?.user.email}
                         </Text>
                         <Text border='1px solid' borderRadius='lg' p={2}>
                             Software Engineer, xddddd
@@ -29,8 +36,7 @@ export default function PefileStructure() {
 
                     <Flex alignItems='center'>
                         <FaLocationDot color="white" size={20} />
-
-                        Located in New York, USA
+                        Located in {session?.user.country}
                     </Flex>
 
 

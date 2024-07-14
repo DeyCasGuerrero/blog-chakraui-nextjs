@@ -31,15 +31,15 @@ const theme = extendTheme({
                     px: '32px',
                 },
             },
-            variants: {
-                solid: (props: any) => ({
-                    color: 'white',
-                }),
-                outline: {
-                    borderColor: 'brand.500',
-                    color: 'brand.500',
-                },
-            },
+            // variants: {
+            //     solid: (props: any) => ({
+            //         color: 'white',
+            //     }),
+            //     outline: {
+            //         borderColor: 'brand.500',
+            //         color: 'brand.500',
+            //     },
+            // },
         },
         Link: {
             baseStyle: {

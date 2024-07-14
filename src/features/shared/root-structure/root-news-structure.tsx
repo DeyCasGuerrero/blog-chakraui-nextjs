@@ -5,6 +5,8 @@ import {
 } from "@chakra-ui/react";
 import { CardsNewIndex } from "@/features/ui/index";
 export default function RootNewStructure() {
+    
+    
     return (
 
         <Box as="section"

@@ -1,6 +1,11 @@
 import { Box, Container, Divider, Grid, Heading, VStack } from "@chakra-ui/react";
 import { CardComponet } from '@/features/ui/index';
-export default function NewStructure() {
+import { News } from "../types/new";
+import {fetchApi} from "@/app/api/news/apiNews";
+async function NewStructure() {
+
+    const data:News[] = await fetchApi();
+    
     return (
         <Box as="section" p={[
             0, 20
@@ -23,15 +28,21 @@ export default function NewStructure() {
                         ]}
                         gap={10}
                     >
-                        <CardComponet />
-                        <CardComponet />
-                        <CardComponet />
-                        <CardComponet />
-                        <CardComponet />
-                        <CardComponet />
+
+                        {data.length > 0 ? (
+                            <>
+                                {data.map((data)=>(
+                                    <CardComponet key={data.idNews} news={data} />
+                                ))}
+                            </>
+                        ):(
+                            <p>No hay noticias disponibles</p>
+                        )}
                     </Grid>
                 </VStack>
             </Container>
         </Box>
     )
 }
+
+export default NewStructure;

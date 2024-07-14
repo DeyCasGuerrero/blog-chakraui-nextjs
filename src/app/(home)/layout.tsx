@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "../globals.css";
 import { ProviderChakra } from "../providers/Provider";
 import { Navegation } from "@/features/ui/index";
+import ProviderNextAuth from "../providers/ProviderSession";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -18,10 +19,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ProviderChakra>
-          <Navegation/>
-          {children}
-        </ProviderChakra>
+        <ProviderNextAuth>
+          <ProviderChakra>
+            <Navegation />
+            {children}
+          </ProviderChakra>
+        </ProviderNextAuth>
       </body>
     </html>
   );
