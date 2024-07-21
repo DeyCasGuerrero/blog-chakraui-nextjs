@@ -4,6 +4,7 @@ import { Box, Button, Flex, FormControl, Heading, Input, Stack, VStack } from "@
 import { useSession, signIn, SignInResponse } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 export default function LoginStructure() {
     const { data: session, status } = useSession();
     console.log({ session, status })
@@ -11,12 +12,12 @@ export default function LoginStructure() {
     const router = useRouter();
 
     useEffect(() => {
-        if (status === "authenticated"){
+        if (status === "authenticated") {
             router.push('/');
         }
     }, [status, router]);
 
-    const [data, setData] = useState({
+    const [user, setUser] = useState({
         email: '',
         password: ''
     });
@@ -24,23 +25,23 @@ export default function LoginStructure() {
 
     const onChangeValues = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
-        setData(pevData => ({
-            ...pevData,
+        setUser(pevUser => ({
+            ...pevUser,
             [name]: value
         }));
     }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(data);
+        console.log(user);
         try {
-            const result:SignInResponse | undefined = await signIn('credentials',{
-                redirect:false,
-                email: data.email,
-                password: data.password
+            const result: SignInResponse | undefined = await signIn('credentials', {
+                redirect: false,
+                email: user.email,
+                password: user.password
             });
 
-            if(!result){
+            if (!result) {
                 throw new Error('Failed to sign in');
             }
         } catch (error) {
@@ -49,7 +50,21 @@ export default function LoginStructure() {
     }
 
     return (
-        <Box as="form" bg='AppWorkspace' w='96' p={5} borderRadius='lg' onSubmit={handleSubmit} shadow='lg'>
+        <Box as="form" position='relative' overflow='hidden' bg='AppWorkspace' w='96' p={5} borderRadius='lg' onSubmit={handleSubmit} shadow='lg'
+            _before={{
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                left: '270px',
+                width: '100%',
+                height: '100%',
+                transform: 'rotate(45deg)',
+                background: 'green.700',
+                
+                borderRadius: 32,
+            }}
+            
+        >
             <Flex mb={5} justifyContent='center'>
                 <Heading as="h1" fontSize='5xl' size="lg" bgClip='text' bgGradient='linear(to-r, blue , red 90%)'>
                     BlogOwn
@@ -63,7 +78,7 @@ export default function LoginStructure() {
                     type="email"
                     color='black'
                     onChange={onChangeValues}
-                    value={data.email}
+                    value={user.email}
                 >
                 </Input>
 
@@ -73,16 +88,16 @@ export default function LoginStructure() {
                     type="password"
                     placeholder="password"
                     color='black'
-                    
-                    value={data.password}
+
+                    value={user.password}
                     onChange={onChangeValues}
                 >
                 </Input>
+                <Box>
+                    <Link href='/register' className="hover:underline text-violet-700 font-semibold" >Don&apos;t Have a account?</Link>
+                </Box>
 
-                <Button bg='green' _hover={{
-                    bg: 'green.700',
-                    transition: 'bg 0.2s ease-in'
-                }}
+                <Button colorScheme="green"
                     type="submit"
                 >
                     Login

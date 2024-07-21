@@ -1,45 +1,143 @@
-'use client';
-import { Avatar, Box, Button, Flex, Heading, HStack, Text, VStack } from "@chakra-ui/react";
+"use client";
+import { Avatar, Box, Button, Flex, Heading, HStack, Icon, Input, Text, VStack } from "@chakra-ui/react";
 import { FaLocationDot } from "react-icons/fa6";
 import { useSession } from "next-auth/react";
-
+// import { storage } from "@/services/firebase/config"; 
+// import {ref, uploadBytes, getDownloadURL} from 'firebase/storage';
+import React, { useState } from "react";
+import { FaEdit } from 'react-icons/fa';
+// import { v4  } from 'uuid';
 export default function PefileStructure() {
 
-    const { data:session, status }=useSession();
+    const { data: session, status } = useSession();
+
+    const [isClickEditable, setIsClickEditable] = useState(false);
+
+    const [formValues, setFormValues] = useState({
+        name: '' || undefined,
+        email: '' || undefined,
+        bio: '' || undefined,
+    });
+
+
+    const handleClick = () => {
+        setIsClickEditable(!isClickEditable);
+    };
+
+    const handleChangeFile = async(e:React.ChangeEvent<HTMLInputElement>) =>{
+        const target = e.target as HTMLInputElement;
+        try {
+            if (target && target.files && target.files.length > 0) {
+                const result = target.files[0];
+            
+            } else {
+                console.error("No files selected or target is not a file input");
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    
+    
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    };
 
     return (
         <Box p={10}>
-            <VStack spacing={10}>
-                <VStack direction='column' spacing={10}>
-                    <Avatar src='https://bit.ly/kent-c-dodds'
-                        name="dey" width={64} height={64}>
 
-                    </Avatar>
+            <VStack spacing={10}>
+
+                <VStack direction='column' spacing={10}>
+                    <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column" position="relative">
+                        <label htmlFor="profileUpdate" style={{ cursor: 'pointer', position: 'relative' }}>
+                            <Avatar
+                                _hover={{
+                                    opacity: 0.7,
+                                    transition: 'opacity 0.3s ease-in-out',
+                                }}
+                                src='https://bit.ly/kent-c-dodds'
+                                name="dey"
+                                width={64}
+                                height={64}
+                                overflow='hidden'
+                            />
+                            <Box
+                                position="absolute"
+                                top="0"
+                                left="0"
+                                width="100%"
+                                height="100%"
+                                rounded='full'
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                                bg="rgba(0, 0, 0, 0.6)"
+                                opacity="0"
+                                _hover={{ opacity: 1 }}
+                                transition="opacity 0.3s ease-in-out"
+                            >
+                                <Icon as={FaEdit} boxSize={6} color="white" />
+                            </Box>
+                            <Input
+                                id="profileUpdate"
+                                type="file"
+                                accept=".jpg, .png"
+                                display="none"
+                                onChange={handleChangeFile}
+                            />
+                        </label>
+                    </Box>
                     <VStack spacing={5} fontWeight='semibold'>
-                        <Text fontSize={34}>
-                            {session?.user.name}
-                        </Text>
-                        <Text fontSize={20}>
-                            {session?.user.role}
-                        </Text>
-                        <Text fontSize={20}>
-                            {session?.user.email}
-                        </Text>
-                        <Text border='1px solid' borderRadius='lg' p={2}>
-                            Software Engineer, xddddd
-                        </Text>
-                        <Button colorScheme="blue">
-                            Edit Profile
-                        </Button>
+                        {isClickEditable ? (
+                            <>
+                                <label className="text-left w-full" htmlFor="name">Name</label>
+                                <Input onChange={handleOnChange} id="name" fontSize='md' value={formValues.name} />
+                                <label className="text-left w-full" htmlFor="email">Email</label>
+                                <Input onChange={handleOnChange} id="email" fontSize='md' value={formValues.email} />
+
+                                <label className="text-left w-full" htmlFor="bio">Bio</label>
+                                {/* PROFILE'S DESCRIPTION */}
+                                <Input onChange={handleOnChange} id="bio" fontSize='md' value={formValues.bio} />
+
+                                <HStack>
+                                    <Button colorScheme="red" onClick={handleClick}>
+                                        Cancel
+                                    </Button>
+                                    <Button colorScheme="blue" >
+                                        Send
+                                    </Button>
+                                </HStack>
+                            </>
+                        ) : (
+
+                            //cuando cancela la edición
+                            <>
+                                <Text fontSize={34}>
+                                    {session?.user.name}
+                                </Text>
+                                <Text fontSize={20}>
+                                    {session?.user.role}
+                                </Text>
+                                <Text fontSize={20}>
+                                    {session?.user.email}
+                                </Text>
+                                <Text border='1px solid' borderRadius='lg' p={2}>
+                                    Software Engineer, xddddd
+                                </Text>
+                                <Flex alignItems='center' gap={2}>
+                                    <FaLocationDot color="white" size={20} />
+                                    Located in {session?.user.country}
+                                </Flex>
+                                <Button colorScheme="blue" onClick={handleClick}>
+                                    Edit Profile
+                                </Button>
+                            </>
+                        )}
+
 
                     </VStack>
-
-                    <Flex alignItems='center'>
-                        <FaLocationDot color="white" size={20} />
-                        Located in {session?.user.country}
-                    </Flex>
-
-
                 </VStack>
 
             </VStack>

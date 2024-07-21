@@ -1,13 +1,58 @@
 'use client';
-import { Box, Button, Flex, Heading, Input, Select, VStack } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Input, Select, Tag, VStack } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import ModelPopUp from "../model-popup/model-popup";
+import React, { useState } from "react";
 export default function CrudFormNews() {
     const { data: session, status } = useSession();
 
+
+    const [newsData, setNewsData] = useState({
+        title: '',
+        content: '',
+        categories: [],
+        author: '',
+    });
+
+
+    const [categoriesData, setCategoriesData] = useState<string[]>([]);
+
+
+    const saveCategories = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        console.log(e.target.value);
+        setCategoriesData(prevCate => [
+            ...prevCate,
+            e.target.value
+        ]);
+    }
+
+
+
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setNewsData(prevData => ({
+            ...prevData,
+            [name]: value
+        }))
+
+    }
+
+
+
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        const updateNews = {
+            ...newsData,
+            author: session?.user.email,
+            categories: categoriesData,
+        }
+
+        console.log(updateNews);
     }
+
+
 
     return (
         <Flex justifyContent='center' mt={10} p={4}>
@@ -22,12 +67,16 @@ export default function CrudFormNews() {
                             type="text"
                             _focus={{ bg: 'black' }}
                             placeholder="title of the news"
+                            name="title"
+                            onChange={handleOnChange}
+                            value={newsData.title}
                         >
                         </Input>
                     </VStack>
 
                     {/* popup model*/}
-                    <ModelPopUp />
+                    <ModelPopUp handleOnChange={handleOnChange} />
+
                     <Box mt={5}>
                         <Select
                             placeholder='Categories'
@@ -41,12 +90,22 @@ export default function CrudFormNews() {
                                 },
                             }}
 
+                            onChange={saveCategories}
 
                         >
                             <option value='option1'>Option 1</option>
                             <option value='option2'>Option 2</option>
                             <option value='option3'>Option 3</option>
                         </Select>
+                    </Box>
+                    <Box m={10} h={10} display='flex' alignItems='center' gap={8} justifyContent='center'>
+                        {categoriesData.length > 0 ?(
+                            categoriesData.map((cate, index)=>(
+                                <Tag p={2} key={index} bg='greenyellow' color='white'>{cate}</Tag>
+                            ))
+                        ):(
+                            <Heading textAlign='center'>No categories added</Heading>
+                        )}
                     </Box>
 
                     <Flex justifyContent='center'>

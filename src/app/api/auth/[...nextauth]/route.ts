@@ -14,7 +14,7 @@ const handleAuth = NextAuth({
             async authorize(credentials) {
 
                 try {
-                    const res = await fetch('http://localhost:3001/api/v1/auth/login', {
+                    const res = await fetch(`${process.env.API_URL_AUTH}/login`,   {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

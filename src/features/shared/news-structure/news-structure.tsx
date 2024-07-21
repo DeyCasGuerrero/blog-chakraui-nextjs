@@ -1,11 +1,29 @@
+'use client';
 import { Box, Container, Divider, Grid, Heading, VStack } from "@chakra-ui/react";
 import { CardComponet } from '@/features/ui/index';
 import { News } from "../types/new";
-import {fetchApi} from "@/app/api/news/apiNews";
-async function NewStructure() {
+import { useEffect, useState } from "react";
+function NewStructure() {
 
-    const data:News[] = await fetchApi();
+
+    const [data, setData]=useState<News[]>([]);
+
+    useEffect(()=>{
+        async function fetchNews(){
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/news`);
+
+            if (!response.ok) {
+                console.log("fetch api failed")
+            }
+
+            const data = await response.json();
+            setData(data);
+        }
+        fetchNews();
+    },[]);
     
+
+    console.log(data);
     return (
         <Box as="section" p={[
             0, 20

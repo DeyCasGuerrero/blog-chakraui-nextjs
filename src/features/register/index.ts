@@ -1,0 +1,1 @@
+export {default as RegisterStructure} from '@/features/register/register-structure/register-structure';

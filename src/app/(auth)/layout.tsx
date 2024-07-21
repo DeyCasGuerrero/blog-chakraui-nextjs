@@ -1,8 +1,9 @@
-import { ProviderChakra } from "../providers/Provider"
+import { ProviderChakra } from "../providers/ProviderChakra"
 import ProviderNextAuth from "../providers/ProviderSession"
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "../globals.css";
+import { Flex } from "@chakra-ui/react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -19,7 +20,9 @@ export default function RootLayout({
             <body className={inter.className}>
                 <ProviderNextAuth>
                     <ProviderChakra>
-                        {children}
+                        <Flex minHeight='100vh' flexDirection='column' alignItems='center' justifyContent='center' bg='whitesmoke'>
+                            {children}
+                        </Flex>
                     </ProviderChakra>
                 </ProviderNextAuth>
             </body>

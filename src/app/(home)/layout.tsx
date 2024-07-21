@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "../globals.css";
-import { ProviderChakra } from "../providers/Provider";
+import { ProviderChakra } from "../providers/ProviderChakra";
 import { Navegation } from "@/features/ui/index";
 import ProviderNextAuth from "../providers/ProviderSession";
 const inter = Inter({ subsets: ["latin"] });

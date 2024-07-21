@@ -5,8 +5,6 @@ import { useSession, signOut } from "next-auth/react";
 export default function NavBar() {
     const { data: session, status } = useSession();
 
-    console.log({ session, status });
-
     const router = useRouter();
     const handleRouter = () => {
         router.push('/blog')

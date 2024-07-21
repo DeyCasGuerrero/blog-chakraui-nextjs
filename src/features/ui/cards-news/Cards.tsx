@@ -2,7 +2,7 @@ import { News } from "@/features/shared/types/new";
 import { Avatar, Flex, HStack, Link, Tag, TagLabel } from "@chakra-ui/react";
 import { Box, CardBody, Heading, VStack, Text, Card } from "@chakra-ui/react";
 
-export default  async function CardComponent({news}:{news : News}) {
+export default function CardComponent({news}:{news : News}) {
 
     return (
         <Card bg="black" border="1px solid" rounded="lg" key={news.idNews}>
