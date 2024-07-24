@@ -3,24 +3,11 @@ import { Box, Container, Divider, Grid, Heading, VStack } from "@chakra-ui/react
 import { CardComponet } from '@/features/ui/index';
 import { News } from "../types/new";
 import { useEffect, useState } from "react";
+import { useNewData } from "../hooks/useNewData";
 function NewStructure() {
 
 
-    const [data, setData]=useState<News[]>([]);
-
-    useEffect(()=>{
-        async function fetchNews(){
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/news`);
-
-            if (!response.ok) {
-                console.log("fetch api failed")
-            }
-
-            const data = await response.json();
-            setData(data);
-        }
-        fetchNews();
-    },[]);
+    const data = useNewData();
     
 
     console.log(data);

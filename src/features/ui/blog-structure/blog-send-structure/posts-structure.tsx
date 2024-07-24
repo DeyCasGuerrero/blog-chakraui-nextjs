@@ -3,7 +3,7 @@ import { Box, Button, HStack, Input, Select, Textarea, VStack, Text, Tag, FormCo
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { AiOutlineClose } from 'react-icons/ai';
 import { useSession } from 'next-auth/react';
-import { postBlog } from "../../api/PostApi";
+import { postBlog } from "../../api/postApi";
 export default function BlogSendStructure() {
 
     const { data: session, status } = useSession();

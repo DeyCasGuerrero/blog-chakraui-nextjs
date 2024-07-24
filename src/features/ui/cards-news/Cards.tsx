@@ -1,8 +1,12 @@
-import { News } from "@/features/shared/types/new";
+
+import { Newcategory, News } from "@/features/shared/types/new";
 import { Avatar, Flex, HStack, Link, Tag, TagLabel } from "@chakra-ui/react";
 import { Box, CardBody, Heading, VStack, Text, Card } from "@chakra-ui/react";
 
-export default function CardComponent({news}:{news : News}) {
+export default function CardComponent({ news }: { news: News }) {
+
+    console.log("waaa",news);
+    
 
     return (
         <Card bg="black" border="1px solid" rounded="lg" key={news.idNews}>
@@ -28,9 +32,9 @@ export default function CardComponent({news}:{news : News}) {
                         {news.content}
                     </Text>
                     <HStack>
-                        <Tag>Ai</Tag>
-                        <Tag>Wa</Tag>
-                        <Tag>Papuh</Tag>
+                        {news && news.newsOnCate && news.newsOnCate.map((cate) => (
+                            <Tag key={cate.idCategory}>{cate.idCategory} / {cate.newsId}</Tag>
+                        ))}
                     </HStack>
                     <Link
                         href={`news/${news.idNews}`}

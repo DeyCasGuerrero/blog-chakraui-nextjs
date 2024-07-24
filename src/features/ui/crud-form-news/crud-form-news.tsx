@@ -3,6 +3,7 @@ import { Box, Button, Flex, Heading, Input, Select, Tag, VStack } from "@chakra-
 import { useSession } from "next-auth/react";
 import ModelPopUp from "../model-popup/model-popup";
 import React, { useState } from "react";
+import { AiOutlineClose } from "react-icons/ai";
 export default function CrudFormNews() {
     const { data: session, status } = useSession();
 
@@ -19,11 +20,13 @@ export default function CrudFormNews() {
 
 
     const saveCategories = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        console.log(e.target.value);
-        setCategoriesData(prevCate => [
-            ...prevCate,
-            e.target.value
-        ]);
+        const categories = e.target.value;
+        setCategoriesData(prevCate => {
+            if (!prevCate.includes(categories)) {
+                return [...prevCate, categories];
+            }
+            return prevCate;
+        });
     }
 
 
@@ -37,6 +40,10 @@ export default function CrudFormNews() {
 
     }
 
+
+    const handleDeleteCategory = (cate: string) => {
+        setCategoriesData(prevCate => prevCate.filter(c => c!== cate));
+    }
 
 
 
@@ -99,17 +106,26 @@ export default function CrudFormNews() {
                         </Select>
                     </Box>
                     <Box m={10} h={10} display='flex' alignItems='center' gap={8} justifyContent='center'>
-                        {categoriesData.length > 0 ?(
-                            categoriesData.map((cate, index)=>(
-                                <Tag p={2} key={index} bg='greenyellow' color='white'>{cate}</Tag>
+                        {categoriesData.length > 0 ? (
+                            categoriesData.map((cate, index) => (
+                                <Tag p={2}  key={index} bg='greenyellow' fontSize={15} color='black'>
+                                    {cate}
+                                    <Button
+                                        variant='link'
+                                        onClick={() => handleDeleteCategory(cate)}
+                                        ml={1}
+                                    >
+                                        <AiOutlineClose color="red" size={18} />
+                                    </Button>
+                                </Tag>
                             ))
-                        ):(
+                        ) : (
                             <Heading textAlign='center'>No categories added</Heading>
                         )}
                     </Box>
 
                     <Flex justifyContent='center'>
-                        <Button variant="primary" type="submit" mt={5} bg='blue'>
+                        <Button variant="primary" type="submit"  bg='blue'>
                             Send
                         </Button>
                     </Flex>
