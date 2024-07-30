@@ -1,6 +1,11 @@
+"use client";
+import { useProfileStore } from "@/app/store/profileStore";
 import { Avatar, Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 
 export default function BlogIterationStructure() {
+
+    const {urlImg} = useProfileStore();
+
     return (
         <Box
             bg="black"
@@ -13,7 +18,7 @@ export default function BlogIterationStructure() {
             boxShadow="md"
         >
             <Flex alignItems="center" mb={2}>
-                <Avatar src='https://bit.ly/kent-c-dodds' mr={2} w="40px" h="40px" ></Avatar>
+                <Avatar src={urlImg} mr={2} w="40px" h="40px" ></Avatar>
                 <Text fontWeight="bold">Username</Text>
                 <Text ml={2} color="gray.500">@username • 2h</Text>
             </Flex>

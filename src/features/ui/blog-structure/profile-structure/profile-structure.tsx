@@ -7,48 +7,44 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import React, { useEffect, useState } from "react";
 import { FaEdit } from 'react-icons/fa';
 import { v4 as uuidv4 } from 'uuid';
-import useGetBio from "../../api/getBio";
-import { profileTypes } from "../../types/profile";
+import { useProfileStore } from "@/app/store/profileStore";
+import ImgAlert from "../../alerts/ImgAlert";
 
 export default function ProfileStructure() {
 
     const { data: session, status } = useSession();
 
-    const { getBio } = useGetBio();
-
-    const [bio, setBio] = useState<profileTypes | null>(null);
+    const { idProfile, updateProfile, description, urlImg, getProfile } = useProfileStore();
     const [isClickEditable, setIsClickEditable] = useState(false);
+    const [imgProfile, setImgProfile] = useState<string | null>(null);
+    const [showAlert, setShowAlert] = useState(false);
     const [formValues, setFormValues] = useState({
         name: '',
         email: '',
         bio: '',
     });
 
-
     useEffect(() => {
         if (status === 'authenticated') {
-            const fetchBio = async () => {
-                const fetchedBio = await getBio(session?.user?.email || '');
-                setBio(fetchedBio);
-            };
-
-            fetchBio();
+            if (session.user.token) {
+                getProfile(session.user.email, session.user.token);
+            }
         }
     }, [status, session?.user?.email]);
 
-    // // Actualizar la biografía cuando `bio` cambie
-    // useEffect(() => {
-    //     if (status === 'authenticated' && bio) {
-    //         const update = async () => {
-    //             await updateBio(bio);
-    //         };
-
-    //         update();
+    // useEffect(()=>{
+    //     if(session?.user.token){
+    //         if(imgProfile){
+    //             updateProfile(imgProfile, session.user.token, idProfile);
+    //         }
     //     }
-    // }, [status, bio, updateBio]);
+    // },[imgProfile])
 
-    if (status === 'loading') return <div>Loading...</div>;
-    if (!bio) return <div>No bio available</div>;
+    useEffect(()=>{
+        if (imgProfile) {
+            setShowAlert(true);
+        }
+    },[imgProfile])
 
     async function uploadFile(file: File) {
 
@@ -59,6 +55,7 @@ export default function ProfileStructure() {
             try {
                 await uploadBytes(avatarRef, file);
                 const downloadURL = await getDownloadURL(avatarRef);
+                setImgProfile(downloadURL);
             } catch (error) {
                 console.error("Error al subir la imagen:", error);
                 throw error;
@@ -87,10 +84,6 @@ export default function ProfileStructure() {
         }
     }
 
-
-
-
-
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
     };
@@ -102,14 +95,14 @@ export default function ProfileStructure() {
             <VStack spacing={10}>
 
                 <VStack direction='column' spacing={10}>
-                    <Box display="flex" alignItems="center" justifyContent="center" flexDirection="column" position="relative">
+                    <Box display="flex" alignItems="center" h={'auto'} justifyContent="center" flexDirection="column" position="relative">
                         <label htmlFor="profileUpdate" style={{ cursor: 'pointer', position: 'relative' }}>
                             <Avatar
                                 _hover={{
                                     opacity: 0.7,
                                     transition: 'opacity 0.3s ease-in-out',
                                 }}
-                                src={bio.urlImg}
+                                src={urlImg}
                                 name={session?.user.name}
                                 width={64}
                                 height={64}
@@ -140,7 +133,12 @@ export default function ProfileStructure() {
                                 onChange={handleChangeFile}
                             />
                         </label>
+                        {/**  Componente de Alerta en el page */}
+                        {showAlert && (
+                            <ImgAlert message="Are you sure to update this img?" onClose={()=>setShowAlert(false)}></ImgAlert>
+                        )}
                     </Box>
+
                     <VStack spacing={5} fontWeight='semibold'>
                         {isClickEditable ? (
                             <>
@@ -176,7 +174,7 @@ export default function ProfileStructure() {
                                     {session?.user.email}
                                 </Text>
                                 <Text border='1px solid' borderRadius='lg' p={2}>
-                                    {bio.description}
+                                    {description}
                                 </Text>
                                 <Flex alignItems='center' gap={2}>
                                     <FaLocationDot color="white" size={20} />

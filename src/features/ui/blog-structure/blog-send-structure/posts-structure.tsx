@@ -3,7 +3,6 @@ import { Box, Button, HStack, Input, Select, Textarea, VStack, Text, Tag, FormCo
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { AiOutlineClose } from 'react-icons/ai';
 import { useSession } from 'next-auth/react';
-import { postBlog } from "../../api/postApi";
 export default function BlogSendStructure() {
 
     const { data: session, status } = useSession();
@@ -30,8 +29,8 @@ export default function BlogSendStructure() {
 
 
     const handleCategoryAdd = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const selectedCategory = event.target.value;
-        if (selectedCategory !== '') {
+        const selectedCategory = event.target.getAttribute('send-value');
+        if (selectedCategory !== null) {
             setCategoriesAdded(prevCategories => {
                 if (!prevCategories.includes(selectedCategory)) {
                     return [...prevCategories, selectedCategory];
@@ -58,11 +57,11 @@ export default function BlogSendStructure() {
             };
             
             try {
-                const success = await postBlog(updatedData);
-                if (success) {
-                    alert('Blog posted successfully');
+                // const success = await postBlog(updatedData);
+                // if (success) {
+                //     alert('Blog posted successfully');
                     
-                }
+                // }
             } catch (error) {
                 alert('Failed to post blog');
             }
@@ -133,9 +132,9 @@ export default function BlogSendStructure() {
                     onChange={handleCategoryAdd}
 
                 >
-                    <option value='option1'>Option 1</option>
-                    <option value='option2'>Option 2</option>
-                    <option value='option3'>Option 3</option>
+                    <option value='Singer' send-value='1'>Singer</option>
+                    <option value='Developing' send-value='2'>Developing</option>
+                    <option value='Music' send-value='3'> Music </option>
                 </Select>
 
                 <Button colorScheme="green" type="submit">
