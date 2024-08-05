@@ -18,7 +18,7 @@ export const useProfileStore = create<ProfileState>((set) => {
         setProfile: (profile) => set(profile),
 
         getProfile: async (email, token) => {
-            const response = await fetch(`http://localhost:3001/api/v1/profile/bio/${email}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/profile/bio/${email}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -34,13 +34,14 @@ export const useProfileStore = create<ProfileState>((set) => {
         },
         updateProfile: async (img, token, id) => {
             try {
-                const response = await fetch(`http://localhost:3001/api/v1/profile/${id}`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/profile/${id}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${token}`,
                     },
-                    body: JSON.stringify({urlImg:img}),
+                    body: JSON.stringify({
+                        urlImg:img}),
                 });
 
                 if (!response.ok) {

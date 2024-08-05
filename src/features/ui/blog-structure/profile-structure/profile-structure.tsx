@@ -40,18 +40,13 @@ export default function ProfileStructure() {
     //     }
     // },[imgProfile])
 
-    useEffect(()=>{
-        if (imgProfile) {
-            setShowAlert(true);
-        }
-    },[imgProfile])
-
+    
     async function uploadFile(file: File) {
-
+        
         if (session?.user) {
             const imgName = uuidv4();
             const avatarRef = ref(storage, `AvatarLinks/${session.user.email}/${imgName}`);
-
+            
             try {
                 await uploadBytes(avatarRef, file);
                 const downloadURL = await getDownloadURL(avatarRef);
@@ -68,14 +63,14 @@ export default function ProfileStructure() {
     const handleClick = () => {
         setIsClickEditable(!isClickEditable);
     };
-
+    
     const handleChangeFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const target = e.target as HTMLInputElement;
         try {
             if (target && target.files && target.files.length > 0) {
                 const result = target.files[0];
                 uploadFile(result);
-
+                
             } else {
                 console.error("No files selected or target is not a file input");
             }
@@ -83,6 +78,12 @@ export default function ProfileStructure() {
             console.error(error)
         }
     }
+    
+    useEffect(()=>{
+        if (imgProfile) {
+            setShowAlert(true);
+        }
+    },[imgProfile, handleChangeFile]);
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 

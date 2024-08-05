@@ -2,7 +2,13 @@
 import { useProfileStore } from "@/app/store/profileStore";
 import { Avatar, Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 
-export default function BlogIterationStructure() {
+interface PostCardProps {
+    title: string;
+    content: string;
+    authorEmail: string;
+    createdAt: Date;
+}
+export default function BlogIterationStructure({ title, content, authorEmail, createdAt }: PostCardProps) {
 
     const {urlImg} = useProfileStore();
 
@@ -19,16 +25,15 @@ export default function BlogIterationStructure() {
         >
             <Flex alignItems="center" mb={2}>
                 <Avatar src={urlImg} mr={2} w="40px" h="40px" ></Avatar>
-                <Text fontWeight="bold">Username</Text>
-                <Text ml={2} color="gray.500">@username • 2h</Text>
+                <Text fontWeight="bold">{authorEmail}</Text>
+                <Text ml={2} color="gray.500">@username • </Text>
             </Flex>
             <Box mb={5}>
                 <Text fontSize="lg" mb={2}>
-                    Blog Iteration Structure
+                    {title}
                 </Text>
                 <Text>
-                    This is a blog iteration structure. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Curabitur at orci condimentum, bibendum tellus at, pharetra nunc.
+                    {content}
                 </Text>
             </Box>
             <Button bg='green.500' _hover={{
