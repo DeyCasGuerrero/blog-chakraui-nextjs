@@ -4,13 +4,17 @@ import { FaLocationDot } from "react-icons/fa6";
 import { useSession } from "next-auth/react";
 import { storage } from "@/services/firebase/config";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { FaEdit } from 'react-icons/fa';
 import { v4 as uuidv4 } from 'uuid';
 import { useProfileStore } from "@/app/store/profileStore";
 import ImgAlert from "../../alerts/ImgAlert";
 
-export default function ProfileStructure() {
+interface ProfileProps{
+    email: string;
+}
+
+export default function ProfileStructure({email}: ProfileProps) {
 
     const { data: session, status } = useSession();
 
@@ -27,18 +31,18 @@ export default function ProfileStructure() {
     useEffect(() => {
         if (status === 'authenticated') {
             if (session.user.token) {
-                getProfile(session.user.email, session.user.token);
+                getProfile(email, session.user.token);
             }
         }
     }, [status, session?.user?.email]);
 
-    // useEffect(()=>{
-    //     if(session?.user.token){
-    //         if(imgProfile){
-    //             updateProfile(imgProfile, session.user.token, idProfile);
-    //         }
-    //     }
-    // },[imgProfile])
+    useEffect(()=>{
+        if(session?.user.token){
+            if(imgProfile){
+                updateProfile(imgProfile, session.user.token, idProfile);
+            }
+        }
+    },[imgProfile])
 
     
     async function uploadFile(file: File) {
@@ -64,15 +68,19 @@ export default function ProfileStructure() {
         setIsClickEditable(!isClickEditable);
     };
     
-    const handleChangeFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const target = e.target as HTMLInputElement;
+    const handleChangeFile =  (e: React.ChangeEvent<HTMLInputElement>) => {
+        const target = e.target;
         try {
-            if (target && target.files && target.files.length > 0) {
-                const result = target.files[0];
-                uploadFile(result);
-                
-            } else {
-                console.error("No files selected or target is not a file input");
+            if(target instanceof HTMLInputElement){
+                if (target && target.files && target.files.length > 0) {
+                    const result = target.files[0];
+
+                    console.log(result);
+                    uploadFile(result);
+                    
+                } else {
+                    console.error("No files selected or target is not a file input");
+                }
             }
         } catch (error) {
             console.error(error)

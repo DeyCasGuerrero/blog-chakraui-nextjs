@@ -7,7 +7,7 @@ export default function NavBar() {
 
     const router = useRouter();
     const handleRouter = () => {
-        router.push('/blog')
+        router.push(`blog/${session?.user.email}`)
     }
 
     return (
@@ -69,7 +69,7 @@ export default function NavBar() {
                                     transition: "color 0.5s ease-out"
                                 }}
                                 cursor="pointer"
-                                href="/blog"
+                                href={`blog/${session?.user.email}`}
                             >
                                 Blog
                             </Box>

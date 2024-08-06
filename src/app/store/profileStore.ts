@@ -17,12 +17,11 @@ export const useProfileStore = create<ProfileState>((set) => {
 
         setProfile: (profile) => set(profile),
 
-        getProfile: async (email, token) => {
+        getProfile: async (email) => {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/profile/bio/${email}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
                 },
             });
             const data = await response.json();

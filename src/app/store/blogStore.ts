@@ -1,24 +1,14 @@
+import { Blog } from "@/features/ui/types/blog";
 import { create } from "zustand";
 
-interface Category {
-    blogId: string;
-    categoryId: number;
-}
 
-interface blogTypes {
-    idBlog: string;
-    title: string;
-    content: string;
-    createdAt: Date;
-    updatedAt: Date;
-    authorEmail: string;
-    BlogOnCategory: Category[];
-}
+
 
 interface BlogState {
     // setBlogState: (blog: blogTypes) => void;
     getBlog: (token: string, email:string) => Promise<void>;
-    blogs:blogTypes[];
+    blogs:Blog[];
+    createBlog:(token:string, data:Blog)=> Promise<void>;
 }
 
 export const useBlogSture = create<BlogState>((set) =>({
@@ -43,5 +33,20 @@ export const useBlogSture = create<BlogState>((set) =>({
             ...state,
             blogs,
         }));
+    },
+    createBlog: async(token, data) => {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blog`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(data),
+        })
+
+        if (!response.ok) {
+            throw new Error('Could not create blog');
+        }
+        
     },
 }))

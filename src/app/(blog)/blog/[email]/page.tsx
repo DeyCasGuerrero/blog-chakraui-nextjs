@@ -6,21 +6,8 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useBlogSture } from "@/app/store/blogStore";
 
-interface Category {
-    blogId: string;
-    categoryId: number;
-}
 
-interface blogTypes {
-    idBlog: string;
-    title: string;
-    content: string;
-    createdAt: Date;
-    updatedAt: Date;
-    authorEmail: string;
-    BlogOnCategory: Category[];
-}
-export default function BlogPage() {
+export default function BlogPage({params}:{params:{email:string}}) {
 
     const { data: session, status } = useSession();
 
@@ -32,7 +19,7 @@ export default function BlogPage() {
 
     useEffect(() => {
         if (status === "authenticated" && session?.user?.token) {
-            getBlog(session.user.token, session.user.email);
+            getBlog(session.user.token, params.email);
         }
     }, [status, session?.user?.token]);
 
@@ -41,7 +28,7 @@ export default function BlogPage() {
         <Box as="main" bg="#0D1117" minHeight="100vh">
             <Container maxW="container.lg" h="100%" display="flex" flexDirection="column">
                 <Stack direction={["column", "column", "row"]} spacing={8} mt={10}>
-                    <ProfileStructure />
+                    <ProfileStructure  email={params.email} />
                     <VStack align="stretch" spacing={8}>
                         <PostStructure />
                         <Box>
@@ -55,20 +42,11 @@ export default function BlogPage() {
                                             title={blog.title}
                                             content={blog.content}
                                             authorEmail={blog.authorEmail}
-                                            createdAt={blog.createdAt}
+                                            // createdAt={blog.createdAt ? blog.createdAt:}
                                         />
                                     ))}
                                 </>
                             )}
-
-
-                            {/* <PostCards />
-                            <PostCards />
-                            <PostCards />
-                            <PostCards />
-                            <PostCards />
-                            <PostCards />
-                            <PostCards /> */}
                         </Box>
                     </VStack>
                 </Stack>

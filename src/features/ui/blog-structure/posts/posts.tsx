@@ -6,7 +6,7 @@ interface PostCardProps {
     title: string;
     content: string;
     authorEmail: string;
-    createdAt: Date;
+    createdAt?: Date;
 }
 export default function BlogIterationStructure({ title, content, authorEmail, createdAt }: PostCardProps) {
 
