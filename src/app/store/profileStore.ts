@@ -3,7 +3,7 @@ import { profileTypes } from "@/features/ui/types/profile";
 
 interface ProfileState extends profileTypes {
     setProfile: (profile: profileTypes) => void;
-    getProfile: (email: string, token: string) => Promise<void>;
+    getProfile: (email: string) => Promise<void>;
     
     updateProfile: (imgProfile:string ,token: string, id:number) => Promise<void>;
 }
@@ -14,6 +14,7 @@ export const useProfileStore = create<ProfileState>((set) => {
         idProfile: 0,
         description: '',
         urlImg: '',
+        userEmail:'',
 
         setProfile: (profile) => set(profile),
 
@@ -29,6 +30,7 @@ export const useProfileStore = create<ProfileState>((set) => {
                 idProfile: data.idProfile,
                 description: data.description,
                 urlImg: data.urlImg,
+                userEmail:data.userEmail,
             });
         },
         updateProfile: async (img, token, id) => {

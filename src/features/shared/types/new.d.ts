@@ -5,7 +5,7 @@ export interface Newcategory{
 }
 
 export interface News{
-    idNews: number,
+    idNews?: number,
     title: string,
     content: string,
     author:string;

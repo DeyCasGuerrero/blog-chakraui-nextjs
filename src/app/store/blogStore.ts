@@ -6,33 +6,36 @@ import { create } from "zustand";
 
 interface BlogState {
     // setBlogState: (blog: blogTypes) => void;
-    getBlog: (token: string, email:string) => Promise<void>;
+    getBlog: (email:string) => Promise<void>;
     blogs:Blog[];
     createBlog:(token:string, data:Blog)=> Promise<void>;
+    hasError: boolean;
 }
 
 export const useBlogSture = create<BlogState>((set) =>({
     blogs: [],
+    hasError: true,
+    getBlog: async (email) => {
+        try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blog/email/${email}`);
 
-    getBlog: async (token, email) => {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blog/email/${email}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
-            },
-        });
+            if (!res.ok) {
+                throw new Error('Could not get blog');
+            }
 
-        if (!res.ok) {
-            throw new Error('Could not get blog');
+            const blogs = await res.json();
+
+            set((state) => ({
+                ...state,
+                blogs,
+                hasError: true, // Si la petición fue exitosa, no hay error
+            }));
+        } catch (error) {
+            set((state) => ({
+                ...state,
+                hasError: false, // Si hay un error, se establece en true
+            }));
         }
-
-        const blogs = await res.json();
-
-        set((state) => ({
-            ...state,
-            blogs,
-        }));
     },
     createBlog: async(token, data) => {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/blog`,{

@@ -2,8 +2,11 @@
 import { Box, Flex, Button, HStack, Heading, Text, Avatar, Menu, MenuButton, MenuList, MenuDivider, MenuItem, MenuGroup, Link } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
+import { useProfileStore } from "@/app/store/profileStore";
 export default function NavBar() {
     const { data: session, status } = useSession();
+
+    const {urlImg} = useProfileStore();
 
     const router = useRouter();
     const handleRouter = () => {
@@ -82,7 +85,7 @@ export default function NavBar() {
                                 <Menu>
                                     <MenuButton as={Box} cursor='pointer'>
                                         <Button colorScheme="pink" height="auto" p={0} borderRadius="full" >
-                                            <Avatar name="Dey" src="https://bit.ly/dan-abramov" />
+                                            <Avatar name="Dey" src={urlImg} />
                                         </Button>
                                     </MenuButton>
                                     <MenuList color='black' p={2}>

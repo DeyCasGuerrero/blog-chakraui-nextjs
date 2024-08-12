@@ -10,15 +10,15 @@ import { v4 as uuidv4 } from 'uuid';
 import { useProfileStore } from "@/app/store/profileStore";
 import ImgAlert from "../../alerts/ImgAlert";
 
-interface ProfileProps{
+interface ProfileProps {
     email: string;
 }
 
-export default function ProfileStructure({email}: ProfileProps) {
+export default function ProfileStructure({ email }: ProfileProps) {
 
     const { data: session, status } = useSession();
 
-    const { idProfile, updateProfile, description, urlImg, getProfile } = useProfileStore();
+    const { idProfile, updateProfile, userEmail, description, urlImg, getProfile } = useProfileStore();
     const [isClickEditable, setIsClickEditable] = useState(false);
     const [imgProfile, setImgProfile] = useState<string | null>(null);
     const [showAlert, setShowAlert] = useState(false);
@@ -29,28 +29,24 @@ export default function ProfileStructure({email}: ProfileProps) {
     });
 
     useEffect(() => {
-        if (status === 'authenticated') {
-            if (session.user.token) {
-                getProfile(email, session.user.token);
-            }
-        }
-    }, [status, session?.user?.email]);
+        getProfile(email);
+    }, []);
 
-    useEffect(()=>{
-        if(session?.user.token){
-            if(imgProfile){
+    useEffect(() => {
+        if (session?.user.token) {
+            if (imgProfile) {
                 updateProfile(imgProfile, session.user.token, idProfile);
             }
         }
-    },[imgProfile])
+    }, [imgProfile])
 
-    
+
     async function uploadFile(file: File) {
-        
+
         if (session?.user) {
             const imgName = uuidv4();
             const avatarRef = ref(storage, `AvatarLinks/${session.user.email}/${imgName}`);
-            
+
             try {
                 await uploadBytes(avatarRef, file);
                 const downloadURL = await getDownloadURL(avatarRef);
@@ -67,17 +63,17 @@ export default function ProfileStructure({email}: ProfileProps) {
     const handleClick = () => {
         setIsClickEditable(!isClickEditable);
     };
-    
-    const handleChangeFile =  (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
         const target = e.target;
         try {
-            if(target instanceof HTMLInputElement){
+            if (target instanceof HTMLInputElement) {
                 if (target && target.files && target.files.length > 0) {
                     const result = target.files[0];
 
                     console.log(result);
                     uploadFile(result);
-                    
+
                 } else {
                     console.error("No files selected or target is not a file input");
                 }
@@ -86,12 +82,12 @@ export default function ProfileStructure({email}: ProfileProps) {
             console.error(error)
         }
     }
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         if (imgProfile) {
             setShowAlert(true);
         }
-    },[imgProfile, handleChangeFile]);
+    }, [imgProfile, handleChangeFile]);
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -108,7 +104,8 @@ export default function ProfileStructure({email}: ProfileProps) {
                         <label htmlFor="profileUpdate" style={{ cursor: 'pointer', position: 'relative' }}>
                             <Avatar
                                 _hover={{
-                                    opacity: 0.7,
+                                    
+                                    opacity: session?.user?  0.7: 1,
                                     transition: 'opacity 0.3s ease-in-out',
                                 }}
                                 src={urlImg}
@@ -117,34 +114,40 @@ export default function ProfileStructure({email}: ProfileProps) {
                                 height={64}
                                 overflow='hidden'
                             />
-                            <Box
-                                position="absolute"
-                                top="0"
-                                left="0"
-                                width="100%"
-                                height="100%"
-                                rounded='full'
-                                display="flex"
-                                alignItems="center"
-                                justifyContent="center"
-                                bg="rgba(0, 0, 0, 0.6)"
-                                opacity="0"
-                                _hover={{ opacity: 1 }}
-                                transition="opacity 0.3s ease-in-out"
-                            >
-                                <Icon as={FaEdit} boxSize={6} color="white" />
-                            </Box>
-                            <Input
-                                id="profileUpdate"
-                                type="file"
-                                accept=".jpg, .png"
-                                display="none"
-                                onChange={handleChangeFile}
-                            />
+                            {session?.user && (
+                                <>
+                                    <Box
+                                        position="absolute"
+                                        top="0"
+                                        left="0"
+                                        width="100%"
+                                        height="100%"
+                                        rounded='full'
+                                        display="flex"
+                                        alignItems="center"
+                                        justifyContent="center"
+                                        bg="rgba(0, 0, 0, 0.6)"
+                                        opacity="0"
+                                        _hover={{ opacity: 1 }}
+                                        transition="opacity 0.3s ease-in-out"
+                                    >
+                                        <Icon as={FaEdit} boxSize={6} color="white" />
+                                    </Box>
+
+                                    <Input
+                                        id="profileUpdate"
+                                        type="file"
+                                        accept=".jpg, .png"
+                                        display="none"
+                                        onChange={handleChangeFile}
+                                    />
+
+                                </>
+                            )}
                         </label>
                         {/**  Componente de Alerta en el page */}
                         {showAlert && (
-                            <ImgAlert message="Are you sure to update this img?" onClose={()=>setShowAlert(false)}></ImgAlert>
+                            <ImgAlert message="Are you sure to update this img?" onClose={() => setShowAlert(false)}></ImgAlert>
                         )}
                     </Box>
 
@@ -180,7 +183,7 @@ export default function ProfileStructure({email}: ProfileProps) {
                                     {session?.user.role}
                                 </Text>
                                 <Text fontSize={20}>
-                                    {session?.user.email}
+                                    {userEmail}
                                 </Text>
                                 <Text border='1px solid' borderRadius='lg' p={2}>
                                     {description}
@@ -189,9 +192,11 @@ export default function ProfileStructure({email}: ProfileProps) {
                                     <FaLocationDot color="white" size={20} />
                                     Located in {session?.user.country}
                                 </Flex>
-                                <Button colorScheme="blue" onClick={handleClick}>
-                                    Edit Profile
-                                </Button>
+                                {session?.user && (
+                                    <Button colorScheme="blue" onClick={handleClick}>
+                                        Edit Profile
+                                    </Button>
+                                )}
                             </>
                         )}
 
